@@ -20,6 +20,18 @@ define([
 
 			App.router = new MainRouter();
 			Backbone.history.start();
+		},
+
+		events: {
+			'keyup' : 'keyup'
+		},
+
+		keyup: function (e) {
+			if ( e.keyCode === 37 || e.keyCode === 39 ) {
+				App.Vent.trigger('changeSlide', {
+					direction: e.keyCode === 39 ? 'next' : 'prev'
+				})
+			}
 		}
 	});
 
