@@ -20,8 +20,8 @@ define(['backbone', 'views/slide'], function(Backbone, SlideView) {
 
 			this.renderAll();
 
-			App.Vent.on('init', this.hideAllButFirst, this);
-			App.Vent.on('changeSlide', this.changeSlide, this);
+			App.Event.on('init', this.hideAllButFirst, this);
+			App.Event.on('changeSlide', this.changeSlide, this);
 		},
 
 		/**
@@ -73,7 +73,6 @@ define(['backbone', 'views/slide'], function(Backbone, SlideView) {
 
 		animateToNewSlide: function (slides, newSlide, direction) {
 			slides.filter(':visible')
-				.css('position', 'absolute')
 				.animate({
 					top     : direction === 'next' ? '100%' : '-100%',
 					opacity : 'hide'
@@ -83,7 +82,6 @@ define(['backbone', 'views/slide'], function(Backbone, SlideView) {
 
 					// bring new slide into view
 					newSlide
-						.css('position', 'absolute')
 						.css('top', direction === 'next' ? '-100%' : '100%' )
 						.animate({
 							top: 0,

@@ -9,11 +9,11 @@ define(['backbone'], function(Backbone) {
 		home: function () {
 			console.log("Home Route");
 
-			App.Vent.trigger('init');
+			App.Event.trigger('init');
 		},
 
 		showSlide: function (slideIndex) {
-			App.Vent.trigger('changeSlide', {
+			App.Event.trigger('changeSlide', {
 				slideIndex : slideIndex,
 				direction  : 'next'
 			});

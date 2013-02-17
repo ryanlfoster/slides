@@ -28,7 +28,7 @@ define([
 
 		keyup: function (e) {
 			if ( e.keyCode === 37 || e.keyCode === 39 ) {
-				App.Vent.trigger('changeSlide', {
+				App.Event.trigger('changeSlide', {
 					direction: e.keyCode === 39 ? 'next' : 'prev'
 				})
 			}
