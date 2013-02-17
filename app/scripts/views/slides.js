@@ -39,45 +39,23 @@ define(['backbone', 'views/slide'], function(Backbone, SlideView) {
 			var newSlide;
 			var slides = this.$el.children();
 
-
-			//  If we're requesting specific slide
-			//  then set current index
-			if ( opts.slideIndex ) {
-				this.currentSlideIndex = ~~opts.slideIndex;
-			} else {
-				// Otherwise grab the prev or next slide
-				this.setCurrentSlideIndex( opts.direction );
-			}
-
-			newSlide = slides.eq( this.currentSlideIndex - 1 );
-			
-			//  transition to that slide
-			slides.filter(':visible')
-				.css('position', 'absolute')
-				.animate({
-					top     : opts.direction === 'next' ? '100%' : '-100%',
-					opacity : 'hide'
-				}, this.transitionSpeed, function () {
-					// slide is gone from view
-					$(this).css('top', 0);
-
-					// bring new slide into view
-					newSlide
-						.css('position', 'absolute')
-						.css('top', opts.direction === 'next' ? '-100%' : '100%' )
-						.animate({
-							top: 0,
-							opacity: 'show'
-						}, self.transitionSpeed);
-				});
-
+			this.setCurrentSlideIndex(opts);
+			newSlide = this.getNextSlide(slides);
+			this.animateToNewSlide(slides, newSlide, opts.direction);
 
 			App.router.navigate('/slides/' + this.currentSlideIndex);
 		},
 
 
-		setCurrentSlideIndex: function (direction) {
-			this.currentSlideIndex += direction === 'next' ? 1 : -1
+		setCurrentSlideIndex: function (opts) {
+			//  If we're requesting specific slide
+			//  then set current index
+			if ( opts.slideIndex ) {
+				return this.currentSlideIndex = ~~opts.slideIndex;
+			}
+			
+			// Otherwise grab the prev or next slide
+			this.currentSlideIndex += opts.direction === 'next' ? 1 : -1
 			
 			if ( this.currentSlideIndex > this.numSlides ) {
 				this.currentSlideIndex = 1;
@@ -86,6 +64,32 @@ define(['backbone', 'views/slide'], function(Backbone, SlideView) {
 			if ( this.currentSlideIndex <= 0 ) {
 				this.currentSlideIndex = this.numSlides;
 			}
+		},
+
+		getNextSlide: function (slides) {
+			return slides.eq( this.currentSlideIndex - 1 )
+		},
+
+
+		animateToNewSlide: function (slides, newSlide, direction) {
+			slides.filter(':visible')
+				.css('position', 'absolute')
+				.animate({
+					top     : direction === 'next' ? '100%' : '-100%',
+					opacity : 'hide'
+				}, this.transitionSpeed, function () {
+					// slide is gone from view
+					$(this).css('top', 0);
+
+					// bring new slide into view
+					newSlide
+						.css('position', 'absolute')
+						.css('top', direction === 'next' ? '-100%' : '100%' )
+						.animate({
+							top: 0,
+							opacity: 'show'
+						}, self.transitionSpeed);
+				});
 		},
 
 		/**
