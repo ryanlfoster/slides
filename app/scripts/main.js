@@ -8,11 +8,12 @@ require.config({
 
 	paths: {
 		jquery   : 'vendor/jquery.min',
-		backbone : '../components/backbone/backbone'
+		backbone : '../components/backbone/backbone',
+		prism    : '../components/prism/prism'
 	}
 });
 
-require(['views/app'], function (AppView) {
+require(['views/app', 'prism'], function (AppView, Prism) {
 	
 	window.App = {
 		Event: _.extend({}, Backbone.Events)

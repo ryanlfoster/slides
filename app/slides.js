@@ -17,6 +17,7 @@ window.slides = [
 
 	{
 		title   : "Some CSS code here",
-		snippet : 'snippets/ex1.css'
+		type    : "css",
+		snippet : 'snippets/ex1.txt'
 	}
 ]

@@ -1,20 +1,29 @@
-define(['backbone'], function(Backbone) {
+define(['backbone', 'helpers'], function(Backbone, Helpers) {
 
 	var Slide = Backbone.View.extend({
 		className : 'slide',
 
 		render : function () {
-			if ( this.model.get('image') ) {
-				this.renderImage();
-			} else if (this.model.get('bullets') ) {
-				this.renderBullets();
-			} else if (this.model.get('quote')) {
-				this.renderBlockquote();
-			} else {
-				this.renderHeading();
-			}
+			var contentType = this.getContentType();
+
+			this['render' + Helpers.capitalize(contentType)]();
 
 			return this;
+		},
+
+		getContentType: function () {
+			if (this.model.get('image')) {
+				return 'image';
+			} else if (this.model.get('bullets')) {
+				return 'bullets';
+			} else if (this.model.get('quote')) {
+				return 'quote';
+			} else if (this.model.get('snippet')) {
+				return 'snippet';
+			} else {
+				return 'heading';
+			}
+
 		},
 
 		renderHeading: function () {
@@ -32,10 +41,10 @@ define(['backbone'], function(Backbone) {
 		renderBullets: function () {
 			var el = this.$el;
 
-			el.addClass('bullets')
+			el.addClass('bullets');
 
 			if ( this.model.get( 'title' )) {
-				el.append('<h1>' + this.model.get('title') + '</h1>')
+				this.renderHeading();
 			}
 
 			el.append([
@@ -45,7 +54,7 @@ define(['backbone'], function(Backbone) {
 				].join(' '));
 		},
 
-		renderBlockquote: function () {
+		renderQuote: function () {
 			this.$el
 				.addClass('quote')
 				.append([
@@ -60,6 +69,28 @@ define(['backbone'], function(Backbone) {
 						'</figcaption>',
 					'</figure>'
 				].join(''));
+		},
+
+		renderSnippet: function () {
+			var self = this;
+			var snippet = this.model.get('snippet');
+
+			this.$el.addClass('snippet');
+			
+			if ( this.model.get( 'title' )) {
+				this.renderHeading();
+			}
+
+			$.get(snippet, function (snippet) {
+				self.$el
+					.append([
+						'<pre class="language-',
+						self.model.get('type'),
+						'"><code>',
+							_.escape(snippet),
+						'</code></pre>'
+					].join(''));
+			})
 		}
 	});
 
