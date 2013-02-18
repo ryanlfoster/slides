@@ -13,7 +13,7 @@ define([
 				collection: new SlidesCollection( window.slides )
 			});
 
-			App.router = new MainRouter();
+			App.Router = new MainRouter();
 			Backbone.history.start();
 		},
 

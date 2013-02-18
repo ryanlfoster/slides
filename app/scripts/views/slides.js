@@ -43,7 +43,7 @@ define(['backbone', 'views/slide'], function(Backbone, SlideView) {
 			newSlide = this.getNextSlide(slides);
 			this.animateToNewSlide(slides, newSlide, opts.direction);
 
-			App.router.navigate('/slides/' + this.currentSlideIndex);
+			App.Router.navigate('/slides/' + this.currentSlideIndex);
 		},
 
 

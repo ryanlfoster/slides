@@ -7,5 +7,9 @@ window.slides = [
 		bullets: ['Point 1', 'Point 2', 'Point 3']
 	},
 	{ title: "Lorem ipsum dolor sit amet, consectetur adipisicing." },
+	{
+		quote: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam et quasi sed amet totam sapiente!",
+		cite: "John Doe"
+	},
 	{ title: "The End" }
 ]
