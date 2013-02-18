@@ -103,6 +103,8 @@ define(['backbone', 'views/slide'], function(Backbone, SlideView) {
 		 * @param  {obj} slide - single slide
 		 */
 		render: function (slide) {
+			console.log( slide.toJSON() );
+
 			var slideView = new SlideView({ model: slide });
 
 			this.$el.append( slideView.render().el );
